@@ -306,23 +306,51 @@
     font-size: 15px; line-height: 2.2; text-align: justify;
   }
 
-  /* ---------- Friends ---------- */
-  .friends-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 34px; align-items: center; margin-top: 44px; }
-  .friend-chip { display: flex; flex-wrap: wrap; gap: 12px; }
-  .friend-chip span {
-    font-family: var(--serif); font-size: 15px; letter-spacing: 2px;
-    background: #fffdf6; border: 1px solid #e4d9c2; border-radius: 999px;
+  /* ---------- Friends（生态路径图） ---------- */
+  .friends { background: #e6efcd; color: #33491d; }
+  .friend-tags {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 12px; margin: 44px 0 36px; padding: 0; list-style: none;
+  }
+  .friend-tags li {
+    border: 1px solid rgba(51, 73, 29, .22);
     padding: 10px 22px;
-    transition: border-color .2s, color .2s;
+    font-family: var(--serif); font-weight: 700; font-size: 15px; letter-spacing: .12em;
+    background: #dce9c0;
+    transition: border-color .25s, color .25s, transform .25s;
   }
-  .friend-chip span:hover { border-color: var(--gold); color: var(--gold); }
-  .friends-copy {
-    background: #fffdf6; border-radius: 14px; border: 1px solid #e4d9c2;
-    padding: 36px 34px;
-    font-family: var(--serif); font-size: 16px; letter-spacing: 1px;
-    color: #4f483a; line-height: 2.1;
+  .friend-tags li:hover { border-color: #2eade6; color: #2eade6; transform: translateY(-3px); }
+  .friends .welcome {
+    text-align: center; font-family: var(--serif); font-weight: 600;
+    font-size: 17px; letter-spacing: .1em; color: #33491d;
+    max-width: 560px; margin: 0 auto 54px;
   }
-  .friends-copy em { font-style: normal; color: var(--gold); font-weight: 700; }
+  .path-wrap { position: relative; max-width: 780px; margin: 0 auto; aspect-ratio: 1.45 / 1; }
+  .path-mark {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    height: 68%; width: auto; opacity: .92;
+  }
+  .path-dot {
+    position: absolute; transform: translate(-50%, -50%); white-space: nowrap;
+    background: #dce9c0; border: 1px solid rgba(51, 73, 29, .22);
+    padding: 4px 13px;
+    font-size: 13px; letter-spacing: .08em; color: #33491d;
+    box-shadow: 0 4px 14px rgba(51, 73, 29, .08);
+  }
+  .path-dot::before {
+    content: ""; display: inline-block; width: 7px; height: 7px;
+    border-radius: 50%; background: #2eade6; margin-right: 8px;
+  }
+  .pd-1 { left: 15%; top: 18%; }
+  .pd-2 { left: 10%; top: 52%; }
+  .pd-3 { left: 18%; top: 82%; }
+  .pd-4 { left: 52%; top: 92%; }
+  .pd-5 { left: 86%; top: 78%; }
+  .pd-6 { left: 92%; top: 46%; }
+  .pd-7 { left: 82%; top: 16%; }
+  .pd-8 { left: 52%; top: 6%; }
+  .pd-9 { left: 36%; top: 34%; }
 
   /* ---------- 原图淡纹理背景 ---------- */
   .tex { position: relative; overflow: hidden; }
@@ -355,7 +383,6 @@
     .who-grid, .prod-grid, .believe-grid { grid-template-columns: 1fr; }
     .pillar-grid, .media-grid, .how-areas { grid-template-columns: 1fr 1fr; }
     .meaning-grid { grid-template-columns: 1fr; }
-    .friends-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
     .nav-links {
@@ -369,6 +396,11 @@
     .nav-burger { display: block; }
     section.block { padding: 70px 18px; }
     .pillar-grid, .media-grid, .how-areas { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 720px) {
+    .path-wrap { aspect-ratio: 1 / 1; }
+    .path-dot { font-size: 11px; padding: 3px 9px; }
   }
 
   /* ============ 美化与交互优化 ============ */
@@ -955,29 +987,33 @@
 </section>
 
 <!-- Friends -->
-<section class="block tex" id="friends" style="--bg: url('assets/tex/22.jpg');">
+<section class="block friends" id="friends">
   <div class="wrap">
     <div class="center reveal">
       <p class="eyebrow center">OUR FRIENDS</p>
       <h2 class="sec-title">我们的朋友</h2>
     </div>
-    <div class="friends-grid reveal stagger">
-      <div class="friend-chip">
-        <span>民艺博物馆</span>
-        <span>社区营造机构</span>
-        <span>在地文化机构</span>
-        <span>小美商业潮牌</span>
-        <span>民族文化研究机构</span>
-        <span>乡建同路人</span>
-        <span>同行伙伴</span>
-      </div>
-      <div class="friends-copy">
-        所有热爱乡土文化、向往田园生活、喜欢小农美学、喜爱小商业的<em>志趣同道人</em>，欢迎同行。
-      </div>
-    </div>
-    <div class="friend-chip reveal" style="justify-content:center; margin-top: 30px;">
-      <span>产地种植户</span><span>手工生产者</span><span>城乡手艺人</span><span>在地生活家</span>
-      <span>作坊主理人</span><span>文创设计师</span><span>乡村新农人</span><span>民俗研究者</span><span>非遗传承人</span>
+    <ul class="friend-tags reveal">
+      <li>民艺博物馆</li>
+      <li>社区营造机构</li>
+      <li>在地文化机构</li>
+      <li>小美商业潮牌</li>
+      <li>民族文化研究机构</li>
+      <li>乡建同路人</li>
+      <li>同行伙伴</li>
+    </ul>
+    <p class="welcome reveal">所有热爱乡土文化、向往田园生活、喜欢小农美学、喜爱小商业的志趣同道人，欢迎同行。</p>
+    <div class="path-wrap reveal">
+      <img class="path-mark" src="assets/tianzige-mark-ink.png" alt="" aria-hidden="true">
+      <span class="path-dot pd-1">产地种植户</span>
+      <span class="path-dot pd-2">手工生产者</span>
+      <span class="path-dot pd-3">城乡手艺人</span>
+      <span class="path-dot pd-4">在地生活家</span>
+      <span class="path-dot pd-5">作坊主理人</span>
+      <span class="path-dot pd-6">文创设计师</span>
+      <span class="path-dot pd-7">乡村新农人</span>
+      <span class="path-dot pd-8">民俗研究者</span>
+      <span class="path-dot pd-9">非遗传承人</span>
     </div>
   </div>
 </section>
