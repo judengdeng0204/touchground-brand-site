@@ -154,17 +154,19 @@
 
   /* ---------- Statement / 释义 ---------- */
   .statement { background: var(--green); color: #f3eddd; text-align: center; }
-  .statement .grid-mark {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;
-    width: 26px; height: 26px; margin: 0 auto 22px;
-  }
-  .statement .grid-mark i { background: rgba(243,237,221,.85); border-radius: 2px; }
   .statement p { font-family: var(--serif); font-size: clamp(16px, 2.4vw, 22px); letter-spacing: 3px; line-height: 2.2; }
   .statement .en {
     margin-top: 14px;
     font-family: Georgia, serif; font-style: italic;
     font-size: 14px; letter-spacing: 1px;
     color: rgba(243,237,221,.65);
+  }
+  .brand-logo {
+    display: block;
+    width: 300px;
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto 26px;
   }
   .identity-line { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px; margin-top: 34px; }
   .identity-line div { text-align: center; }
@@ -632,7 +634,7 @@
 <!-- Brand statement -->
 <section class="block statement tex" style="--bg: url('assets/slides/01.jpg'); --tex-opacity: .1;">
   <div class="wrap reveal">
-    <div class="grid-mark"><i></i><i></i><i></i><i></i></div>
+    <img class="brand-logo" src="assets/tianzige-logo.png" alt="田字格 TouchGround 标志">
     <p>自由的小美之乡</p>
     <p class="en">A Small Beauty Way to Free</p>
     <div class="identity-line">
