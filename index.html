@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>田字格 TouchGround · 自由的小美之乡</title>
+<meta name="description" content="田字格 TouchGround——一个乡土文化创意品牌，也是一家乡野生活方式媒体。Web3.0 世代的新小农与数字乡民，共创自由的小美之乡。">
+<style>
+  :root {
+    --green: #1c3a2c;
+    --green-deep: #10271c;
+    --sage: #5d7a63;
+    --cream: #f6f1e4;
+    --paper: #efe7d6;
+    --gold: #b98a4a;
+    --ink: #26221a;
+    --muted: #6f6757;
+    --serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", Georgia, serif;
+    --sans: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    transition: background .3s, box-shadow .3s;
+  }
+  .nav.scrolled {
+    background: rgba(16, 39, 28, .92);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    color: #fff;
+    text-decoration: none;
+  }
+  .nav-logo .cn { font-family: var(--serif); font-size: 20px; font-weight: 700; letter-spacing: 4px; }
+  .nav-logo .en { font-size: 11px; letter-spacing: 2px; opacity: .8; text-transform: uppercase; }
+  .nav-links { display: flex; gap: 26px; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,.88); text-decoration: none; font-size: 14px; letter-spacing: 1px; transition: color .2s; }
+  .nav-links a:hover { color: #fff; }
+  .nav-burger { display: none; background: none; border: 0; color: #fff; font-size: 24px; cursor: pointer; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 620px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+  }
+  .hero-slides { position: absolute; inset: 0; }
+  .hero-slides img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    animation: kenburns 12s ease-in-out infinite alternate;
+  }
+  .hero-slides img.active { opacity: 1; }
+  @keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.08); } }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,25,18,.35) 0%, rgba(10,25,18,.15) 45%, rgba(10,25,18,.55) 100%),
+      radial-gradient(ellipse at center, rgba(10,25,18,.1) 0%, rgba(10,25,18,.45) 100%);
+  }
+  .hero-inner { position: relative; z-index: 2; padding: 0 24px; max-width: 860px; }
+  .hero-brand {
+    display: inline-flex; align-items: baseline; gap: 10px;
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 999px;
+    padding: 7px 22px;
+    margin-bottom: 34px;
+    backdrop-filter: blur(4px);
+  }
+  .hero-brand .cn { font-family: var(--serif); font-size: 17px; letter-spacing: 6px; font-weight: 700; }
+  .hero-brand .en { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; opacity: .85; }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(40px, 7vw, 76px);
+    font-weight: 800;
+    letter-spacing: 6px;
+    line-height: 1.25;
+    text-shadow: 0 3px 30px rgba(0,0,0,.35);
+  }
+  .hero .en-slogan {
+    margin-top: 18px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-size: clamp(15px, 2vw, 20px);
+    letter-spacing: 1px;
+    opacity: .9;
+  }
+  .hero .scroll-hint {
+    position: absolute; bottom: 26px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-size: 12px; letter-spacing: 3px;
+    color: rgba(255,255,255,.8);
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100% { transform: translate(-50%,0); } 50% { transform: translate(-50%,8px); } }
+
+  /* ---------- Sections ---------- */
+  section.block { padding: 96px 24px; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  .eyebrow {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 13px; letter-spacing: 5px;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--gold); }
+  .eyebrow.center { justify-content: center; }
+  .eyebrow.center::after { content: ""; width: 34px; height: 1px; background: var(--gold); }
+  h2.sec-title {
+    font-family: var(--serif);
+    font-size: clamp(30px, 4.5vw, 46px);
+    font-weight: 800;
+    letter-spacing: 4px;
+    line-height: 1.3;
+  }
+  .sec-sub { margin-top: 14px; color: var(--muted); font-size: 15px; max-width: 700px; }
+  .center .sec-sub { margin-left: auto; margin-right: auto; }
+  .center { text-align: center; }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ---------- Statement / 释义 ---------- */
+  .statement { background: var(--green); color: #f3eddd; text-align: center; }
+  .statement .grid-mark {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px;
+    width: 26px; height: 26px; margin: 0 auto 22px;
+  }
+  .statement .grid-mark i { background: rgba(243,237,221,.85); border-radius: 2px; }
+  .statement p { font-family: var(--serif); font-size: clamp(16px, 2.4vw, 22px); letter-spacing: 3px; line-height: 2.2; }
+  .statement .en {
+    margin-top: 14px;
+    font-family: Georgia, serif; font-style: italic;
+    font-size: 14px; letter-spacing: 1px;
+    color: rgba(243,237,221,.65);
+  }
+  .identity-line { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px; margin-top: 34px; }
+  .identity-line div { text-align: center; }
+  .identity-line .t { font-family: var(--serif); font-size: 18px; letter-spacing: 3px; color: #f3eddd; }
+  .identity-line .s { font-size: 12px; letter-spacing: 2px; color: rgba(243,237,221,.6); margin-top: 4px; }
+  .meaning-band { background: var(--paper); text-align: center; }
+  .meaning-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+  .meaning-item {
+    background: #fffdf6; border: 1px solid #e4d9c2; border-radius: 14px;
+    padding: 28px 20px;
+    font-family: var(--serif);
+    font-size: 17px; letter-spacing: 2px;
+  }
+  .meaning-item .mark { font-size: 12px; letter-spacing: 4px; color: var(--gold); margin-bottom: 8px; }
+
+  /* ---------- Who ---------- */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 48px; }
+  .who-card {
+    background: #fffdf6; border: 1px solid #e4d9c2; border-radius: 14px;
+    padding: 30px 30px 28px; position: relative; overflow: hidden;
+    transition: transform .3s, box-shadow .3s;
+  }
+  .who-card:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(60,45,20,.1); }
+  .who-card .num { font-family: Georgia, serif; font-size: 13px; letter-spacing: 2px; color: var(--gold); }
+  .who-card h3 { font-family: var(--serif); font-size: 24px; font-weight: 800; letter-spacing: 2px; margin: 10px 0 14px; }
+  .who-card h3 em { font-style: normal; color: var(--gold); }
+  .who-card p { font-size: 14px; color: #5b5445; }
+  .tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 40px; }
+  .tags span {
+    font-family: var(--serif); font-size: 14px; letter-spacing: 3px;
+    color: var(--green);
+    border: 1px solid rgba(28,58,44,.35);
+    border-radius: 999px;
+    padding: 6px 18px;
+  }
+  .who-verse { margin-top: 42px; text-align: center; font-family: var(--serif); font-size: 16px; letter-spacing: 4px; color: var(--muted); line-height: 2; }
+
+  /* ---------- What ---------- */
+  .what { background: var(--paper); }
+  .what-roles { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin: 40px 0 8px; }
+  .what-roles span {
+    font-family: var(--serif); font-size: 15px; letter-spacing: 2px;
+    background: #fffdf6; border: 1px solid #e4d9c2; border-radius: 999px;
+    padding: 9px 22px;
+  }
+  .pillar { margin-top: 42px; }
+  .pillar-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px; }
+  .pillar-head .idx { font-family: Georgia, serif; font-size: 13px; color: var(--gold); letter-spacing: 2px; }
+  .pillar-head h3 { font-family: var(--serif); font-size: 26px; letter-spacing: 3px; }
+  .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pillar-card { background: #fffdf6; border-radius: 12px; border: 1px solid #e4d9c2; padding: 24px 24px; }
+  .pillar-card h4 { font-family: var(--serif); font-size: 17px; letter-spacing: 2px; margin-bottom: 10px; color: var(--green); }
+  .pillar-card ul { list-style: none; }
+  .pillar-card li { font-size: 14px; color: #5b5445; padding: 3px 0; }
+  .pillar-card li small { color: var(--muted); }
+
+  /* ---------- How ---------- */
+  .how-areas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 44px; }
+  .how-area {
+    background: #fffdf6; border: 1px solid #e4d9c2; border-radius: 12px;
+    padding: 26px 22px; text-align: center;
+  }
+  .how-area .tag { font-family: var(--serif); font-size: 15px; letter-spacing: 4px; color: var(--gold); }
+  .how-area h4 { font-family: var(--serif); font-size: 24px; letter-spacing: 3px; margin: 8px 0 10px; }
+  .how-area p { font-size: 14px; color: #5b5445; }
+
+  /* ---------- Products ---------- */
+  .products { background: var(--green); color: #f3eddd; }
+  .products .eyebrow { color: #d8b37a; }
+  .products .eyebrow::before { background: #d8b37a; }
+  .products .sec-sub { color: rgba(243,237,221,.72); }
+  .prod-map { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 34px; }
+  .prod-map span {
+    font-family: var(--serif); font-size: 14px; letter-spacing: 3px;
+    color: #f3eddd; border: 1px solid rgba(216,179,122,.45); border-radius: 999px;
+    padding: 7px 20px;
+  }
+  .prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 44px; }
+  .prod-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(216,179,122,.35);
+    border-radius: 14px;
+    padding: 32px 28px;
+    transition: background .3s, transform .3s;
+  }
+  .prod-card:hover { background: rgba(255,255,255,.09); transform: translateY(-4px); }
+  .prod-card .cat { font-family: var(--serif); font-size: 13px; letter-spacing: 5px; color: #d8b37a; }
+  .prod-card h3 { font-family: var(--serif); font-size: 26px; letter-spacing: 4px; margin: 10px 0 20px; }
+  .prod-card ul { list-style: none; }
+  .prod-card li { font-size: 14px; color: rgba(243,237,221,.9); padding: 9px 0; border-bottom: 1px dashed rgba(216,179,122,.25); }
+  .prod-card li:last-child { border-bottom: 0; }
+  .prod-card li strong { font-weight: 700; color: #fff; }
+  .prod-card li small { display: block; font-size: 12px; color: rgba(243,237,221,.6); }
+  .media-list { margin-top: 42px; }
+  .media-list h4 { font-family: var(--serif); font-size: 20px; letter-spacing: 3px; color: #d8b37a; margin: 22px 0 10px; }
+  .media-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .media-card { background: rgba(255,255,255,.05); border: 1px solid rgba(216,179,122,.25); border-radius: 12px; padding: 22px 20px; }
+  .media-card h5 { font-size: 15px; letter-spacing: 2px; color: #f3eddd; margin-bottom: 8px; }
+  .media-card ul { list-style: none; }
+  .media-card li { font-size: 13px; color: rgba(243,237,221,.8); padding: 2px 0; }
+  .show-lines { margin-top: 26px; font-size: 14px; color: rgba(243,237,221,.85); }
+  .show-lines b { color: #d8b37a; font-weight: 600; margin-right: 8px; }
+  .show-lines div { padding: 3px 0; }
+
+  /* ---------- Creed / 信条 ---------- */
+  .creed { background: var(--green-deep); color: #f3eddd; }
+  .creed .eyebrow { color: #d8b37a; }
+  .creed .eyebrow::before { background: #d8b37a; }
+  .creed-text {
+    margin-top: 36px;
+    font-family: var(--serif);
+    font-size: clamp(15px, 1.8vw, 18px);
+    letter-spacing: 1px;
+    line-height: 2.3;
+    text-align: justify;
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(243,237,221,.92);
+  }
+  .believe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+  .believe-card { background: rgba(255,255,255,.05); border: 1px solid rgba(216,179,122,.3); border-radius: 14px; padding: 28px 24px; }
+  .believe-card .tag { font-family: var(--serif); font-size: 13px; letter-spacing: 5px; color: #d8b37a; }
+  .believe-card p { margin-top: 12px; font-size: 14px; line-height: 2.1; color: rgba(243,237,221,.88); text-align: justify; }
+
+  /* ---------- Identity / 定位 ---------- */
+  .identity-roles { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 36px; }
+  .identity-roles span {
+    font-family: var(--serif); font-size: 15px; letter-spacing: 2px;
+    background: #fffdf6; border: 1px solid #e4d9c2; border-radius: 999px;
+    padding: 9px 22px;
+  }
+  .identity-copy { margin-top: 40px; display: grid; gap: 20px; }
+  .identity-copy p {
+    background: #fffdf6; border: 1px solid #e4d9c2; border-radius: 12px;
+    padding: 24px 28px;
+    font-size: 15px; line-height: 2.2; text-align: justify;
+  }
+
+  /* ---------- Friends ---------- */
+  .friends-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 34px; align-items: center; margin-top: 44px; }
+  .friend-chip { display: flex; flex-wrap: wrap; gap: 12px; }
+  .friend-chip span {
+    font-family: var(--serif); font-size: 15px; letter-spacing: 2px;
+    background: #fffdf6; border: 1px solid #e4d9c2; border-radius: 999px;
+    padding: 10px 22px;
+    transition: border-color .2s, color .2s;
+  }
+  .friend-chip span:hover { border-color: var(--gold); color: var(--gold); }
+  .friends-copy {
+    background: #fffdf6; border-radius: 14px; border: 1px solid #e4d9c2;
+    padding: 36px 34px;
+    font-family: var(--serif); font-size: 16px; letter-spacing: 1px;
+    color: #4f483a; line-height: 2.1;
+  }
+  .friends-copy em { font-style: normal; color: var(--gold); font-weight: 700; }
+
+  /* ---------- 原图淡纹理背景 ---------- */
+  .tex { position: relative; overflow: hidden; }
+  .tex::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--bg);
+    background-size: cover;
+    background-position: center 25%;
+    opacity: var(--tex-opacity, .07);
+    pointer-events: none;
+  }
+  .tex > .wrap { position: relative; }
+
+  /* ---------- Footer ---------- */
+  footer.site-foot {
+    background: var(--green-deep);
+    color: rgba(243,237,221,.75);
+    text-align: center;
+    padding: 56px 24px 42px;
+    font-size: 13px; letter-spacing: 1px; line-height: 2.2;
+  }
+  footer.site-foot .brand-line { font-family: var(--serif); font-size: 22px; letter-spacing: 6px; color: #f3eddd; margin-bottom: 6px; }
+  footer.site-foot a { color: #d8b37a; text-decoration: none; border-bottom: 1px dotted #d8b37a; }
+  footer.site-foot .note { margin-top: 14px; font-size: 12px; color: rgba(243,237,221,.45); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .who-grid, .prod-grid, .believe-grid { grid-template-columns: 1fr; }
+    .pillar-grid, .media-grid, .how-areas { grid-template-columns: 1fr 1fr; }
+    .meaning-grid { grid-template-columns: 1fr; }
+    .friends-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .nav-links {
+      display: none;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(16,39,28,.97);
+      flex-direction: column;
+      padding: 18px 28px; gap: 14px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-burger { display: block; }
+    section.block { padding: 70px 18px; }
+    .pillar-grid, .media-grid, .how-areas { grid-template-columns: 1fr; }
+  }
+
+  /* ============ 美化与交互优化 ============ */
+
+  /* 顶部滚动进度条 */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--gold), #d8b37a);
+    z-index: 60;
+    transition: width .1s linear;
+  }
+
+  /* 导航：当前章节高亮 + 下划线动效 */
+  .nav-links a { position: relative; }
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -5px;
+    height: 1px; width: 0;
+    background: #d8b37a;
+    transition: width .25s ease;
+  }
+  .nav-links a:hover::after,
+  .nav-links a.active::after { width: 100%; }
+  .nav-links a.active { color: #d8b37a; }
+
+  /* 返回顶部 */
+  .totop {
+    position: fixed;
+    right: 24px; bottom: 24px;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(216,179,122,.5);
+    background: rgba(16,39,28,.9);
+    color: #d8b37a;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity .3s, transform .3s, background .3s;
+    z-index: 55;
+  }
+  .totop.show { opacity: 1; transform: none; pointer-events: auto; }
+  .totop:hover { background: var(--green); }
+
+  /* 首屏轮播指示点 */
+  .hero-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 64px;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+  }
+  .hero-dots button {
+    width: 8px; height: 8px;
+    border-radius: 999px;
+    border: 0;
+    background: rgba(255,255,255,.45);
+    cursor: pointer;
+    padding: 0;
+    transition: width .3s, background .3s;
+  }
+  .hero-dots button.active {
+    width: 22px;
+    background: #f3eddd;
+  }
+
+  /* 标题下方金色短横 */
+  .sec-title {
+    position: relative;
+    padding-bottom: 18px;
+  }
+  .sec-title::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--gold);
+  }
+  .products .sec-title::after,
+  .creed .sec-title::after { background: #d8b37a; }
+
+  /* 入场缓动 + 卡片分级延迟 */
+  .reveal {
+    transition: opacity .9s cubic-bezier(.22,.61,.36,1), transform .9s cubic-bezier(.22,.61,.36,1);
+  }
+  .stagger > * {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  .stagger.visible > * {
+    animation: rise .7s cubic-bezier(.22,.61,.36,1) both;
+  }
+  .stagger.visible > *:nth-child(1) { animation-delay: .05s; }
+  .stagger.visible > *:nth-child(2) { animation-delay: .12s; }
+  .stagger.visible > *:nth-child(3) { animation-delay: .19s; }
+  .stagger.visible > *:nth-child(4) { animation-delay: .26s; }
+  .stagger.visible > *:nth-child(5) { animation-delay: .33s; }
+  .stagger.visible > *:nth-child(6) { animation-delay: .40s; }
+  .stagger.visible > *:nth-child(7) { animation-delay: .47s; }
+  .stagger.visible > *:nth-child(8) { animation-delay: .54s; }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* 卡片统一悬停语言 */
+  .who-card, .meaning-item, .pillar-card, .how-area,
+  .prod-card, .believe-card, .media-card {
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease, background .3s ease;
+  }
+  .who-card:hover, .meaning-item:hover, .pillar-card:hover, .how-area:hover,
+  .prod-card:hover, .believe-card:hover, .media-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(60,45,20,.12);
+  }
+
+  /* 标签/角色芯片悬停 */
+  .tags span, .what-roles span, .identity-roles span, .prod-map span {
+    transition: color .25s, border-color .25s, transform .25s, box-shadow .25s;
+  }
+  .tags span:hover, .what-roles span:hover, .identity-roles span:hover, .prod-map span:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(60,45,20,.1);
+  }
+
+  /* 深色区块：径向暗角，保证文字可读 */
+  .statement::after, .products::after, .creed::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 28%, rgba(16,39,28,0) 0%, rgba(16,39,28,.38) 100%);
+    pointer-events: none;
+  }
+  .statement .wrap, .products .wrap, .creed .wrap { z-index: 1; }
+
+  /* 页脚细节 */
+  footer.site-foot { border-top: 1px solid rgba(216,179,122,.22); }
+  .foot-top {
+    display: inline-block;
+    margin-top: 10px;
+    color: #d8b37a;
+    border: 1px solid rgba(216,179,122,.4);
+    border-radius: 999px;
+    padding: 5px 18px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: background .25s, color .25s;
+  }
+  .foot-top:hover { background: rgba(216,179,122,.12); color: #fff; }
+
+  /* 焦点样式 */
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid #d8b37a;
+    outline-offset: 3px;
+  }
+
+  /* 锚点定位补偿固定导航 */
+  section[id] { scroll-margin-top: 76px; }
+
+  /* 跳过导航链接 */
+  .skip-link {
+    position: fixed;
+    top: -60px;
+    left: 16px;
+    z-index: 70;
+    background: var(--green-deep);
+    color: #f3eddd;
+    padding: 10px 18px;
+    border-radius: 0 0 10px 10px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: top .25s;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* 文本选中与滚动条的品牌化细节 */
+  ::selection { background: rgba(185,138,74,.35); color: var(--ink); }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(28,58,44,.35);
+    border-radius: 999px;
+    border: 2px solid var(--cream);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(28,58,44,.55); }
+
+  /* 首屏细节交互 */
+  .hero-brand { transition: border-color .3s, background .3s; }
+  .hero-brand:hover { border-color: #f3eddd; background: rgba(255,255,255,.08); }
+  .hero-dots button:hover { background: #fff; }
+
+  /* 减弱动效偏好 */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+    .reveal, .stagger > * { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 滚动进度条 -->
+<div class="progress" id="progress"></div>
+
+<!-- 跳过导航 -->
+<a class="skip-link" href="#top">跳到主要内容</a>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="#top">
+    <span class="cn">田字格</span>
+    <span class="en">Touch Ground</span>
+  </a>
+  <button class="nav-burger" id="burger" aria-label="菜单">☰</button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#who">我们是谁</a></li>
+    <li><a href="#what">我们做什么</a></li>
+    <li><a href="#how">我们怎么做</a></li>
+    <li><a href="#products">我们的产品</a></li>
+    <li><a href="#creed">信条与定位</a></li>
+    <li><a href="#friends">我们的朋友</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <div class="hero-slides" id="heroSlides">
+    <img src="assets/slides/01.jpg" alt="田字格品牌封面 01" class="active">
+    <img src="assets/slides/02.jpg" alt="田字格品牌封面 02">
+    <img src="assets/slides/03.jpg" alt="田字格品牌封面 03">
+    <img src="assets/slides/04.jpg" alt="田字格品牌封面 04">
+    <img src="assets/slides/05.jpg" alt="田字格品牌封面 05">
+    <img src="assets/slides/06.jpg" alt="田字格品牌封面 06">
+    <img src="assets/slides/07.jpg" alt="田字格品牌封面 07">
+  </div>
+  <div class="hero-inner">
+    <div class="hero-brand"><span class="cn">田字格</span><span class="en">Touch Ground</span></div>
+    <h1>自由的小美之乡</h1>
+    <p class="en-slogan">A Small Beauty Way to Free</p>
+  </div>
+  <div class="hero-dots" id="heroDots"></div>
+  <div class="scroll-hint">向下滚动</div>
+</header>
+
+<!-- Brand statement -->
+<section class="block statement tex" style="--bg: url('assets/slides/01.jpg'); --tex-opacity: .1;">
+  <div class="wrap reveal">
+    <div class="grid-mark"><i></i><i></i><i></i><i></i></div>
+    <p>自由的小美之乡</p>
+    <p class="en">A Small Beauty Way to Free</p>
+    <div class="identity-line">
+      <div><div class="t">一个 × 品牌</div><div class="s">乡土文化创意</div></div>
+      <div><div class="t">一家 × 媒体</div><div class="s">乡野生活方式</div></div>
+      <div><div class="t">Web3.0 世代新小农</div><div class="s">数字乡民部落格</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 品牌释义 -->
+<section class="block meaning-band tex" style="--bg: url('assets/gallery/03.jpg');">
+  <div class="wrap">
+    <div class="center reveal">
+      <p class="eyebrow center">BRAND MEANING</p>
+      <h2 class="sec-title">品牌释义</h2>
+    </div>
+    <div class="meaning-grid reveal stagger">
+      <div class="meaning-item"><div class="mark">01</div>乡隅田野的想象</div>
+      <div class="meaning-item"><div class="mark">02</div>亲触土地的质感</div>
+      <div class="meaning-item"><div class="mark">03</div>田园生活的理想</div>
+    </div>
+  </div>
+</section>
+
+<!-- Who -->
+<section class="block tex" id="who" style="--bg: url('assets/gallery/01.jpg');">
+  <div class="wrap">
+    <div class="center reveal">
+      <p class="eyebrow center">WHO ARE WE</p>
+      <h2 class="sec-title">我们是谁</h2>
+      <p class="sec-sub">乡土文化传播官 · 田园美学提案人 · 在地生活策展师</p>
+    </div>
+    <div class="who-grid reveal stagger">
+      <article class="who-card">
+        <p class="num">01</p>
+        <h3>一本流媒体<em>风俗杂志</em></h3>
+        <p>我们挖掘有关风土风物风情的内容，讲述关于民族民俗民艺的故事。</p>
+      </article>
+      <article class="who-card">
+        <p class="num">02</p>
+        <h3>一个乡土文化<em>创意品牌</em></h3>
+        <p>我们希望以体贴的语言重新诠释地方文化叙事，以文创的方式翻新地方物产活力，以日常的视角再现乡土人文价值。</p>
+      </article>
+      <article class="who-card">
+        <p class="num">03</p>
+        <h3>一间乡野生活<em>方式公司</em></h3>
+        <p>我们奉行小而美的商业哲学，倡导自然质朴的实用美学，传播人本主义的自在生活方式主张，以朴素当下的态度推动手艺风物的日用化开发再造，联合个体手工生产者共创共建田园潮牌生态，让民物活于日常。</p>
+      </article>
+      <article class="who-card">
+        <p class="num">04</p>
+        <h3>一家潮流社群<em>互动运营机构</em></h3>
+        <p>我们致力成为一家有脉搏呼吸的公司和一个温暖生动的品牌，通过漫游活动、风俗展览、民艺工作坊、物产市集、在地生活节、民俗文化节等线下活动的日常举办，实现与用户的亲近互动，也链接社群的活泼共生。</p>
+      </article>
+    </div>
+    <div class="tags reveal">
+      <span>物产</span><span>手工</span><span>数创</span><span>潮集</span>
+      <span>山街</span><span>社戏</span><span>村游</span><span>乡节</span>
+    </div>
+    <p class="who-verse reveal">风土 · 风物 · 风情<br>民族 · 民俗 · 民艺</p>
+  </div>
+</section>
+
+<!-- What -->
+<section class="block what tex" id="what" style="--bg: url('assets/gallery/04.jpg');">
+  <div class="wrap">
+    <div class="center reveal">
+      <p class="eyebrow center">WHAT WE DO</p>
+      <h2 class="sec-title">我们做什么</h2>
+      <p class="sec-sub">乡土文化传播官 · 田园美学提案人 · 在地生活策展师</p>
+    </div>
+    <div class="what-roles reveal">
+      <span>乡土文化传播官</span>
+      <span>田园美学提案人</span>
+      <span>在地生活策展师</span>
+    </div>
+
+    <div class="pillar reveal">
+      <div class="pillar-head"><span class="idx">壹</span><h3>乡土文化传播</h3></div>
+    <div class="pillar-grid reveal stagger">
+        <div class="pillar-card">
+          <h4>内容</h4>
+          <ul><li>风俗画报</li><li>生产播客</li><li>人文记录</li></ul>
+        </div>
+        <div class="pillar-card">
+          <h4>活动</h4>
+          <ul><li>乡村漫游</li><li>城市散步</li><li>山街巡礼</li></ul>
+        </div>
+        <div class="pillar-card">
+          <h4>展览</h4>
+          <ul><li>物产市集</li><li>手工造物</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar reveal">
+      <div class="pillar-head"><span class="idx">贰</span><h3>田园美学提案</h3></div>
+    <div class="pillar-grid reveal stagger">
+        <div class="pillar-card">
+          <h4>设计</h4>
+          <ul><li>风物再造</li><li>民族文创</li><li>田园潮牌</li></ul>
+        </div>
+        <div class="pillar-card">
+          <h4>出版</h4>
+          <ul><li>小美商业</li><li>物产研究</li><li>田野调查</li></ul>
+        </div>
+        <div class="pillar-card">
+          <h4>产品</h4>
+          <ul><li>旅行手信</li><li>数字礼物</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="pillar reveal">
+      <div class="pillar-head"><span class="idx">叁</span><h3>在地生活策展</h3></div>
+    <div class="pillar-grid reveal stagger">
+        <div class="pillar-card">
+          <h4>展览</h4>
+          <ul><li>风俗展</li><li>数创展</li></ul>
+        </div>
+        <div class="pillar-card">
+          <h4>活动</h4>
+          <ul><li>城市漫步</li><li>民艺工坊</li><li>民俗节庆</li></ul>
+        </div>
+        <div class="pillar-card">
+          <h4>营造</h4>
+          <ul>
+            <li>乡村社区营造<small>村艺展馆 · 社戏共创</small></li>
+            <li>城市空间改良</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How -->
+<section class="block tex" id="how" style="--bg: url('assets/gallery/08.jpg');">
+  <div class="wrap">
+    <div class="center reveal">
+      <p class="eyebrow center">HOW WE DO IT</p>
+      <h2 class="sec-title">我们怎么做</h2>
+      <p class="sec-sub">围绕内容、活动、展览与产品四条线展开。</p>
+    </div>
+    <div class="how-areas reveal stagger">
+      <div class="how-area">
+        <div class="tag">内容</div>
+        <h4>内容</h4>
+        <p>自主原创 · 联合制作 · 约稿采编</p>
+      </div>
+      <div class="how-area">
+        <div class="tag">活动</div>
+        <h4>活动</h4>
+        <p>策划发起 · 共创邀请 · 合作执行</p>
+      </div>
+      <div class="how-area">
+        <div class="tag">展览</div>
+        <h4>展览</h4>
+        <p>提案实施 · 资源协作 · 空间合作</p>
+      </div>
+      <div class="how-area">
+        <div class="tag">产品</div>
+        <h4>产品</h4>
+        <p>设计出品 · 联名开发 · 定制生产</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products -->
+<section class="block products tex" id="products" style="--bg: url('assets/gallery/13.jpg'); --tex-opacity: .12;">
+  <div class="wrap">
+    <div class="center reveal">
+      <p class="eyebrow center">OUR PRODUCTS</p>
+      <h2 class="sec-title">我们的产品</h2>
+      <p class="sec-sub">内容 · 活动 · 展览 · 市集 · 风物 · 数创 · 营造</p>
+    </div>
+    <div class="prod-map reveal">
+      <span>内容</span><span>活动</span><span>展览</span><span>市集</span>
+      <span>风物</span><span>数创</span><span>营造</span>
+    </div>
+
+    <div class="media-list reveal">
+      <h4>内容 · 流媒体矩阵</h4>
+    <div class="media-grid reveal stagger">
+        <div class="media-card">
+          <h5>公众号</h5>
+          <ul><li>信息聚合</li><li>田野现场</li><li>乡土报道</li><li>市集探照</li></ul>
+        </div>
+        <div class="media-card">
+          <h5>小红书</h5>
+          <ul><li>风俗画报</li><li>风物研究</li><li>风土杂志</li></ul>
+        </div>
+        <div class="media-card">
+          <h5>视频号</h5>
+          <ul><li>短视频</li><li>微纪录片</li></ul>
+        </div>
+        <div class="media-card">
+          <h5>bilibili</h5>
+          <ul><li>长纪录片</li><li>视频播客</li></ul>
+        </div>
+      </div>
+      <div class="show-lines">
+        <div><b>音频播客</b>《小生产者说》·《小美商业论》</div>
+        <div><b>视频纪录</b>《风物溯源记》—— 地方物产溯源</div>
+        <div><b>视频纪录</b>《地方风情录》—— 地方文化解析</div>
+        <div><b>视频纪录</b>《半农半旅人》—— 在地生活记录</div>
+      </div>
+    </div>
+
+    <div class="media-list reveal">
+      <h4>活动 · 展览 · 市集 · 社群</h4>
+    <div class="media-grid reveal stagger">
+        <div class="media-card">
+          <h5>活动</h5>
+          <ul><li>城市散步「城中村」</li><li>乡村漫游「村游季」</li><li>山街巡礼「巡山记」</li></ul>
+        </div>
+        <div class="media-card">
+          <h5>展览 · 现象展</h5>
+          <ul><li>风俗展</li><li>风物展</li><li>生活展</li><li>数创展</li></ul>
+        </div>
+        <div class="media-card">
+          <h5>工作坊</h5>
+          <ul><li>非遗</li><li>手工</li><li>数创</li><li>营造</li></ul>
+        </div>
+        <div class="media-card">
+          <h5>市集</h5>
+          <ul><li>滇里滇气</li></ul>
+        </div>
+      </div>
+      <div class="show-lines"><div><b>晒谷场小程序</b>活动报名 · 展览发布 · 市集招商</div></div>
+    </div>
+
+    <div class="prod-grid reveal stagger">
+      <article class="prod-card">
+        <p class="cat">风物</p>
+        <h3>风物</h3>
+        <ul>
+          <li><strong>云里物礼</strong><small>云南新潮文创伴手礼</small></li>
+          <li><strong>行行念念</strong><small>地方特产旅行手信</small></li>
+          <li><strong>小农造物</strong><small>地标农产品溯源新作</small></li>
+          <li><strong>依好野™ 乡土潮品集合店</strong><small>田字格文创潮物会员商城</small></li>
+        </ul>
+      </article>
+      <article class="prod-card">
+        <p class="cat">数创</p>
+        <h3>数创</h3>
+        <ul>
+          <li><strong>什物链</strong><small>农产品区块链溯源 SaaS</small></li>
+          <li><strong>手工艺数字礼物</strong><small>加密 NFT 数字藏品</small></li>
+        </ul>
+      </article>
+      <article class="prod-card">
+        <p class="cat">营造</p>
+        <h3>营造</h3>
+        <ul>
+          <li><strong>田立方 T³</strong><small>乡土空间与场景营造平台</small></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Creed -->
+<section class="block creed tex" id="creed" style="--bg: url('assets/gallery/17.jpg'); --tex-opacity: .12;">
+  <div class="wrap">
+    <div class="center reveal">
+      <p class="eyebrow center">OUR CREED</p>
+      <h2 class="sec-title">我们的信条</h2>
+    </div>
+    <p class="creed-text reveal">
+      在科技发展已经进入到 Web3.0 数智时代的今天，传统小农的生产方式和与之伴生的乡土生活方式，有了新的时代意义和可能：它的个体生产和自雇模式正在成为人类的新生产关系趋势和自由工作潮流，也正在重新定义人与生产、人与工作、人与职业的关系，它将是人类从非对等控制性雇佣关系中解放的开始；它的小富即安和规模克制性格，是人类反“内卷”先声和对抗异化的出口；它的实用美学和永续生产思想，焕发着当代社会最稀缺的人文气质；它的田园图景和社区生态，是更符合人类本性的生活方案，也会是未来人类回归人本主义的聚落方向。
+    </p>
+    <div class="believe-grid reveal stagger">
+      <div class="believe-card">
+        <div class="tag">我们相信</div>
+        <p>小而美的商业业态也必将因此而迎来新的勃发生机；所有手工、手作、民艺等传统的、个体的、有温度的生产手段的价值都将被重识和新构。</p>
+      </div>
+      <div class="believe-card">
+        <div class="tag">我们希望</div>
+        <p>每位个体生产者都能通过小而美的商业方式实现独立地存在、尊严地发展、对等地交易、自由地选择、体面地生活。</p>
+      </div>
+      <div class="believe-card">
+        <div class="tag">我们致力</div>
+        <p>在田野与乡土实践中探求数智时代中自由与小而美的永续共存之道。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Identity -->
+<section class="block tex" id="identity" style="--bg: url('assets/gallery/19.jpg');">
+  <div class="wrap">
+    <div class="center reveal">
+      <p class="eyebrow center">OUR IDENTITY</p>
+      <h2 class="sec-title">我们的定位</h2>
+    </div>
+    <div class="identity-roles reveal">
+      <span>数字乡民部落格</span>
+      <span>新生代小农美学实践家</span>
+      <span>个体主义倡行者</span>
+    </div>
+    <div class="identity-copy">
+      <p class="reveal">
+        我们把我们的美学主张称之为“小农美学”，我们把我们的哲学理念冠名为“个体主义”。因而我们对自身的定位有四重：Web3.0 世代新小农 / 数字乡民部落格；新生代小农美学实践家 / 个体主义倡行者。
+      </p>
+      <p class="reveal">
+        从个体层面，我们要做 Web3 时代的数智“新小农”，个体主义生产方式和生活方式的践行探索与倡导推动。
+      </p>
+      <p class="reveal">
+        从生态层面我们对自己的角色定位是：内容开发的创作者、传播者；田园生活的推广者、创新者；社群活动的发起者、组织者；数字社区的共建者、共创者；小美商业研究者、实践者；生态联盟的链接者、赋能者。
+      </p>
+      <p class="reveal">
+        我们将搭建数字乡民部落线上社区、创建小美生活互动社群；发起成立“小生产者互助协作联盟”；开展服务小生产者的“打光行动”赋能计划。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Friends -->
+<section class="block tex" id="friends" style="--bg: url('assets/gallery/22.jpg');">
+  <div class="wrap">
+    <div class="center reveal">
+      <p class="eyebrow center">OUR FRIENDS</p>
+      <h2 class="sec-title">我们的朋友</h2>
+    </div>
+    <div class="friends-grid reveal stagger">
+      <div class="friend-chip">
+        <span>民艺博物馆</span>
+        <span>社区营造机构</span>
+        <span>在地文化机构</span>
+        <span>小美商业潮牌</span>
+        <span>民族文化研究机构</span>
+        <span>乡建同路人</span>
+        <span>同行伙伴</span>
+      </div>
+      <div class="friends-copy">
+        所有热爱乡土文化、向往田园生活、喜欢小农美学、喜爱小商业的<em>志趣同道人</em>，欢迎同行。
+      </div>
+    </div>
+    <div class="friend-chip reveal" style="justify-content:center; margin-top: 30px;">
+      <span>产地种植户</span><span>手工生产者</span><span>城乡手艺人</span><span>在地生活家</span>
+      <span>作坊主理人</span><span>文创设计师</span><span>乡村新农人</span><span>民俗研究者</span><span>非遗传承人</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-foot">
+  <p class="brand-line">田字格 TouchGround</p>
+  <p>自由的小美之乡 · A Small Beauty Way to Free</p>
+  <p>乡土文化传播官 + 田园美学提案人 + 在地生活策展师</p>
+  <p>微信搜索公众号：田字格TouchGround</p>
+  <p>原文：<a href="https://mp.weixin.qq.com/s/rUFSHzMTnTRFvGPdXyMcIg" target="_blank" rel="noopener">关于田字格TouchGround｜自由的小美之乡</a></p>
+  <p><a class="foot-top" href="#top">返回顶部</a></p>
+  <p class="note">本站为品牌展示页面，内容整理自品牌公开图文资料，仅供品牌宣传使用。</p>
+</footer>
+
+<!-- 返回顶部 -->
+<button class="totop" id="toTop" aria-label="回到顶部">↑</button>
+
+<script>
+  // Hero slideshow + 指示点
+  const slides = Array.from(document.querySelectorAll('#heroSlides img'));
+  const heroDots = document.getElementById('heroDots');
+  let current = 0;
+  let timer;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.setAttribute('aria-label', '切换到第 ' + (i + 1) + ' 张封面');
+    if (i === 0) b.classList.add('active');
+    b.addEventListener('click', () => goSlide(i));
+    heroDots.appendChild(b);
+  });
+  function updateDots() {
+    heroDots.querySelectorAll('button').forEach((b, i) => b.classList.toggle('active', i === current));
+  }
+  function goSlide(i) {
+    slides[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    updateDots();
+    restartTimer();
+  }
+  function restartTimer() {
+    clearInterval(timer);
+    if (!reduceMotion) {
+      timer = setInterval(() => goSlide((current + 1) % slides.length), 5000);
+    }
+  }
+  restartTimer();
+
+  // 鼠标悬停暂停轮播、页面隐藏时暂停
+  const hero = document.getElementById('top');
+  hero.addEventListener('mouseenter', () => clearInterval(timer));
+  hero.addEventListener('mouseleave', restartTimer);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) clearInterval(timer);
+    else restartTimer();
+  });
+
+  // Scroll：导航背景 + 进度条 + 返回顶部 + 章节高亮
+  const nav = document.getElementById('nav');
+  const progress = document.getElementById('progress');
+  const toTop = document.getElementById('toTop');
+  const sections = Array.from(document.querySelectorAll('section[id]'));
+  const navA = Array.from(document.querySelectorAll('.nav-links a'));
+  function onScroll() {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+    toTop.classList.toggle('show', window.scrollY > 700);
+    let id = '';
+    for (const s of sections) {
+      if (window.scrollY >= s.offsetTop - 180) id = s.id;
+    }
+    navA.forEach((a) => {
+      const on = a.getAttribute('href') === '#' + id;
+      a.classList.toggle('active', on);
+      if (on) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') navLinks.classList.remove('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (navLinks.classList.contains('open') && !nav.contains(e.target)) {
+      navLinks.classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') navLinks.classList.remove('open');
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+</script>
+</body>
+</html>
